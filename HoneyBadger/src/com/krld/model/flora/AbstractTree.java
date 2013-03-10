@@ -15,6 +15,11 @@ public abstract class AbstractTree extends Unit {
     }
 
     public void setCutDown(boolean cutDown) {
+        if (cutDown) {
+            setMakeCollisions(false);
+        } else {
+            setMakeCollisions(true);
+        }
         this.cutDown = cutDown;
     }
 }

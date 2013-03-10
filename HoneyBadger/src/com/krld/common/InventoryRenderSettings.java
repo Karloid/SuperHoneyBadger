@@ -14,4 +14,6 @@ public class InventoryRenderSettings {
     public static final int X_RECIPES_MARGIN = 450;
     public static final int X_RECIPES_PADDING = 473;
     public static final int X_RECIPES_INFO = 450;
+    public static final int X_EQUIP = 320;
+    public static final int Y_EQUIP = 10;
 }

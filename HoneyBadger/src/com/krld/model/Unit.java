@@ -25,6 +25,7 @@ public abstract class Unit implements MyDrawable, Located, Serializable, Moveabl
     protected int noMoveChance = 99;
     protected int minimalDistanceAxisMove = 10;
     private static long nextId = 0;
+    private boolean makeCollisions = true;
 
     public static long getNextId() {
         nextId++;
@@ -199,8 +200,12 @@ public abstract class Unit implements MyDrawable, Located, Serializable, Moveabl
             return false;
         }
         for (Located locatedObject : getGameState().getObjects()) {
-            if (locatedObject.getX() < x + 16 && locatedObject.getX() > x - 16 && locatedObject.getY() < y + 16 && locatedObject.getY() > y - 16) {
-                return false;
+            try {
+                if (locatedObject.getX() < x + 16 && locatedObject.getX() > x - 16 && locatedObject.getY() < y + 16 && locatedObject.getY() > y - 16 /*&& isMakeCollisions()*/) {
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return true;
@@ -216,11 +221,19 @@ public abstract class Unit implements MyDrawable, Located, Serializable, Moveabl
 
     @Override
     public void draw() {
-      draw(getX(), getY());
+        draw(getX(), getY());
     }
 
     @Override
     public void draw(int x, int y) {
 
+    }
+
+    public boolean isMakeCollisions() {
+        return makeCollisions;
+    }
+
+    public void setMakeCollisions(boolean makeCollisions) {
+        this.makeCollisions = makeCollisions;
     }
 }

@@ -5,6 +5,7 @@ import com.krld.core.rmi.Service;
 import com.krld.model.*;
 import com.krld.model.container.GameState;
 import com.krld.model.live.Player;
+import com.krld.model.recipe.Recipe;
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.*;
 import org.newdawn.slick.imageout.ImageOut;
@@ -276,9 +277,14 @@ public class Game extends BasicGame {
                 service.useItemFromInventory(getPlayer().getId(), cursorPosition);
             } else if (activeInventoryScope == InventoryRenderSettings.RECIPE_SCOPE) {
                 service.useRecipe(getPlayer().getId(), cursorPosition);
-            };
+            }
+            ;
         }
-
+        if (showInventory && input.isKeyPressed(Input.KEY_C)) {
+            if (activeInventoryScope == InventoryRenderSettings.ITEMS_SCOPE) {
+                service.setEquippedItem(getPlayer().getId(), cursorPosition);
+            }
+        }
         getViewPort().setX((int) (getPlayer().getX() - getWidth() / (2 * zoomFactor)));
         getViewPort().setY((int) (getPlayer().getY() - getHeight() / (2 * zoomFactor)));
 
@@ -390,6 +396,7 @@ public class Game extends BasicGame {
                 if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
                         playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
                     unit.draw();
+                  //  g.drawString(((Unit)unit).isMakeCollisions() + "", unit.getX(),unit.getY());
                 }
             }
             for (Moveable unit : getGameState().getMoveables()) {
@@ -518,6 +525,18 @@ public class Game extends BasicGame {
                 shiftX = 0;
                 shiftY = shiftY + InventoryRenderSettings.Y_INDENT_BETWEEN_ELEMENTS;
             }
+        }
+
+        Equip equip = player.getEquipped();
+        g.setColor(Color.gray);
+        g.fillRoundRect(viewPort.getX() + InventoryRenderSettings.X_EQUIP, viewPort.getY() + InventoryRenderSettings.Y_INFO, 60, 55, 5);
+        g.setColor(Color.black);
+        g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_EQUIP, viewPort.getY() + InventoryRenderSettings.Y_INFO, 60, 55, 5);
+        g.setColor(Color.white);
+        g.drawString("Hands:", viewPort.getX() + InventoryRenderSettings.X_EQUIP + 4, viewPort.getY() + InventoryRenderSettings.Y_INFO );
+        if (equip != null) {
+
+            equip.draw(viewPort.getX() + InventoryRenderSettings.X_EQUIP + 3 + 16, viewPort.getY() + InventoryRenderSettings.Y_INFO + 18 + 16);
         }
     }
 

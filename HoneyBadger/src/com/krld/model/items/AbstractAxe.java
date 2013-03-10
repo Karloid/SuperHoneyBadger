@@ -2,6 +2,7 @@ package com.krld.model.items;
 
 import com.krld.model.Collective;
 import com.krld.model.Dropable;
+import com.krld.model.Equip;
 import com.krld.model.Unit;
 import com.krld.model.live.Player;
 import org.newdawn.slick.Image;
@@ -9,7 +10,7 @@ import org.newdawn.slick.SlickException;
 
 import java.io.Serializable;
 
-public abstract class AbstractAxe extends Unit implements Collective, Serializable, Dropable {
+public abstract class AbstractAxe extends Unit implements Collective, Serializable, Dropable, Equip {
     private static Image img;
     private boolean dropped;
 
@@ -27,7 +28,7 @@ public abstract class AbstractAxe extends Unit implements Collective, Serializab
 
     @Override
     public boolean isDropped() {
-        return false;
+        return dropped;
     }
 
     @Override

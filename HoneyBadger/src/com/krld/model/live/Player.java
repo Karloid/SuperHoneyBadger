@@ -2,6 +2,8 @@ package com.krld.model.live;
 
 import com.krld.common.MoveDirection;
 import com.krld.model.*;
+import com.krld.model.recipe.Recipe;
+import com.krld.model.recipe.StoneAxeRecipe;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -19,6 +21,7 @@ public class Player extends LiveForm implements Living {
     private long id;
     private MoveDirection moveDirection;
     private ArrayList<Recipe> recipes;
+    private Equip equip;
 
     public Player(int x, int y) {
         setId(Calendar.getInstance().getTimeInMillis());
@@ -273,7 +276,7 @@ public class Player extends LiveForm implements Living {
     }
 
     public Equip getEquipped() {
-        return null;
+        return equip;
     }
 
     public ArrayList<Recipe> getRecipes() {
@@ -282,5 +285,9 @@ public class Player extends LiveForm implements Living {
 
     public void setRecipes(ArrayList<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public void setEquipped(Equip equipped) {
+        this.equip = equipped;
     }
 }

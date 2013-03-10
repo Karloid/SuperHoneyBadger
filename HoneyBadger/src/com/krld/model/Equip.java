@@ -7,4 +7,4 @@ package com.krld.model;
  * Time: 23:48
  * To change this template use File | Settings | File Templates.
  */
-public interface Equip {}
+public interface Equip extends Collective, MyDrawable {}

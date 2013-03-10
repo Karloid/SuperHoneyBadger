@@ -1,5 +1,6 @@
-package com.krld.model;
+package com.krld.model.recipe;
 
+import com.krld.model.MyDrawable;
 import com.krld.model.live.Player;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

@@ -1,5 +1,6 @@
-package com.krld.model;
+package com.krld.model.recipe;
 
+import com.krld.model.Collective;
 import com.krld.model.items.AbstractBranch;
 import com.krld.model.items.AbstractStone;
 import com.krld.model.items.StoneAxe;
