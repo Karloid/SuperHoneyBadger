@@ -52,7 +52,8 @@ public class Game extends BasicGame {
 
     private Music m;
     private Music mLoop;
-    private int cursorPosition = 0;
+    private int cursorPosition;
+    private int activeInventoryScope;
 
     public Game(int mode) {
         super("com.krld Server");
@@ -224,6 +225,16 @@ public class Game extends BasicGame {
             showInventory = !showInventory;
             skipInventoryElements = 0;
             cursorPosition = 0;
+            activeInventoryScope = InventoryRenderSettings.ITEMS_SCOPE;
+        }
+        if (showInventory && input.isKeyPressed(Input.KEY_TAB)) {
+            if (activeInventoryScope == InventoryRenderSettings.ITEMS_SCOPE) {
+                activeInventoryScope = InventoryRenderSettings.RECIPE_SCOPE;
+                cursorPosition = 0;
+            } else {
+                activeInventoryScope = InventoryRenderSettings.ITEMS_SCOPE;
+                cursorPosition = 0;
+            }
         }
         if (showInventory && input.isKeyPressed(Input.KEY_LEFT)) {
     /*        skipInventoryElements--;
@@ -261,7 +272,11 @@ public class Game extends BasicGame {
             }
         }
         if (showInventory && input.isKeyPressed(Input.KEY_X)) {
-            service.useItemFromInventory(getPlayer().getId(), cursorPosition);
+            if (activeInventoryScope == InventoryRenderSettings.ITEMS_SCOPE) {
+                service.useItemFromInventory(getPlayer().getId(), cursorPosition);
+            } else if (activeInventoryScope == InventoryRenderSettings.RECIPE_SCOPE) {
+                service.useRecipe(getPlayer().getId(), cursorPosition);
+            };
         }
 
         getViewPort().setX((int) (getPlayer().getX() - getWidth() / (2 * zoomFactor)));
@@ -449,7 +464,7 @@ public class Game extends BasicGame {
         for (Collective item : items) {
             drawX = viewPort.getX() + InventoryRenderSettings.X_PADDING + shiftX;
             drawY = viewPort.getY() + InventoryRenderSettings.Y_PADDING + shiftY;
-            if (i == cursorPosition) {
+            if (i == cursorPosition && activeInventoryScope == InventoryRenderSettings.ITEMS_SCOPE) {
                 g.setColor(Color.orange);
                 g.fillRect((float) drawX - 16, (float) drawY - 16, 32f, 32f);
                 g.setColor(Color.gray);
@@ -462,6 +477,41 @@ public class Game extends BasicGame {
                 g.setColor(Color.white);
             }
             item.draw(drawX, drawY);
+            shiftX = shiftX + InventoryRenderSettings.Y_INDENT_BETWEEN_ELEMENTS;
+            i++;
+            if (i % 8 == 0) {
+                shiftX = 0;
+                shiftY = shiftY + InventoryRenderSettings.Y_INDENT_BETWEEN_ELEMENTS;
+            }
+        }
+        //фон для рецептов
+        g.setColor(Color.gray);
+        g.fillRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_MARGIN, viewPort.getY() + InventoryRenderSettings.Y_MARGIN, 282, 300, 5);
+        g.setColor(Color.black);
+        g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_MARGIN, viewPort.getY() + InventoryRenderSettings.Y_MARGIN, 282, 300, 5);
+        g.setColor(Color.white);
+
+        shiftX = 0;
+        shiftY = 0;
+        i = 0;
+        drawX = 0;
+        drawY = 0;
+
+        for (Recipe recipe : player.getRecipes()) {
+            drawX = viewPort.getX() + InventoryRenderSettings.X_RECIPES_PADDING + shiftX;
+            drawY = viewPort.getY() + InventoryRenderSettings.Y_PADDING + shiftY;
+            if (i == cursorPosition && activeInventoryScope == InventoryRenderSettings.RECIPE_SCOPE) {
+                g.setColor(Color.orange);
+                g.fillRect((float) drawX - 16, (float) drawY - 16, 32f, 32f);
+                g.setColor(Color.gray);
+                g.fillRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO - 3, viewPort.getY() + InventoryRenderSettings.Y_INFO, 200f, 64f, 5);
+                g.setColor(Color.black);
+                g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO - 3, viewPort.getY() + InventoryRenderSettings.Y_INFO, 200f, 64f, 5);
+                g.setColor(Color.orange);
+                g.drawString(recipe.toString(), viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO, viewPort.getY() + InventoryRenderSettings.Y_INFO);
+                g.setColor(Color.white);
+            }
+            recipe.draw(drawX, drawY);
             shiftX = shiftX + InventoryRenderSettings.Y_INDENT_BETWEEN_ELEMENTS;
             i++;
             if (i % 8 == 0) {

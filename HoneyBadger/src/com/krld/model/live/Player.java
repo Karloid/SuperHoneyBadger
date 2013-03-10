@@ -18,6 +18,7 @@ public class Player extends LiveForm implements Living {
     private Inventory inventory;
     private long id;
     private MoveDirection moveDirection;
+    private ArrayList<Recipe> recipes;
 
     public Player(int x, int y) {
         setId(Calendar.getInstance().getTimeInMillis());
@@ -31,6 +32,8 @@ public class Player extends LiveForm implements Living {
         setMaxHunger(100);
         setHp(50);
         setHunger(50);
+        setRecipes(new ArrayList<Recipe>());
+        getRecipes().add(new AxeRecipe());
     }
 
     public static Image getImgLeft() {
@@ -271,5 +274,13 @@ public class Player extends LiveForm implements Living {
 
     public Equip getEquipped() {
         return null;
+    }
+
+    public ArrayList<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(ArrayList<Recipe> recipes) {
+        this.recipes = recipes;
     }
 }

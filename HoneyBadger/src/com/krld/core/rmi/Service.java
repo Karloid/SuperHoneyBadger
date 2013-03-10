@@ -32,4 +32,6 @@ public interface Service extends Remote {
     void dropItem(long id) throws RemoteException;
 
     void useItemFromInventory(long id, int cursorPosition) throws RemoteException;
+
+    void useRecipe(long id, int cursorPosition);
 }

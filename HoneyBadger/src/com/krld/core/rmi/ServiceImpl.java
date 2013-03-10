@@ -6,8 +6,9 @@ import com.krld.core.Game;
 import com.krld.model.Collective;
 import com.krld.model.FireBall;
 import com.krld.model.Located;
-import com.krld.model.live.Player;
+import com.krld.model.Recipe;
 import com.krld.model.container.GameState;
+import com.krld.model.live.Player;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
@@ -79,7 +80,8 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
                 x = p.getX();
                 y = p.getY() + 32;
                 break;
-        } for (Located located : getGameState().getObjects()) {
+        }
+        for (Located located : getGameState().getObjects()) {
             if (located.getX() < x + 16 && located.getX() > x - 16 && located.getY() < y + 16 && located.getY() > y - 16) {
                 located.use(p);
             }
@@ -87,7 +89,7 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     }
 
     @Override
-    public void dropItem(long id) throws RemoteException{
+    public void dropItem(long id) throws RemoteException {
         Player p = findPlayerById(id);
         p.dropItem();
     }
@@ -102,7 +104,22 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
                 break;
             }
             i++;
-        };
+        }
+        ;
+    }
+
+    @Override
+    public void useRecipe(long id, int cursorPosition) {
+        Player p = findPlayerById(id);
+        int i = 0;
+        for (Recipe recipe : p.getRecipes()) {
+            if (i == cursorPosition) {
+                recipe.craft(p);
+                break;
+            }
+            i++;
+        }
+        ;
     }
 
     private Player findPlayerById(long id) {
