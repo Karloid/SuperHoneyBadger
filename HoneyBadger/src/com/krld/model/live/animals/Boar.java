@@ -12,8 +12,8 @@ public class Boar extends LiveForm {
 
     static {
         try {
-            alive = new Image("res/boar.png");
-            dead = new Image("res/boar.png");
+            alive = new Image("HoneyBadger/res/boar.png");
+            dead = new Image("HoneyBadger/res/boar.png");
             alive.setFilter(Image.FILTER_NEAREST);
             dead.setFilter(Image.FILTER_NEAREST);
         } catch (SlickException e) {

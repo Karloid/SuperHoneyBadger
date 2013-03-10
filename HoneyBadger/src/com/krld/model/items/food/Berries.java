@@ -47,7 +47,7 @@ public class Berries extends Unit implements Collective, Serializable, Dropable,
     public void draw(int x, int y) {
         if (img == null) {
             try {
-                img = new Image("res/berries.png");
+                img = new Image("HoneyBadger/res/berries.png");
                 img.setFilter(Image.FILTER_NEAREST);
             } catch (SlickException e) {
                 e.printStackTrace();

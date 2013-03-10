@@ -46,10 +46,10 @@ public class FireBall extends Unit implements Temporary, Moveable {
     public void draw() {
         if (imgLeft == null) {
             try {
-                setImgLeft(new Image("res/fireball_left.png"));
-                setImgRight(new Image("res/fireball_right.png"));
-                setImgTop(new Image("res/fireball_top.png"));
-                setImgBot(new Image("res/fireball_bot.png"));
+                setImgLeft(new Image("HoneyBadger/res/fireball_left.png"));
+                setImgRight(new Image("HoneyBadger/res/fireball_right.png"));
+                setImgTop(new Image("HoneyBadger/res/fireball_top.png"));
+                setImgBot(new Image("HoneyBadger/res/fireball_bot.png"));
             } catch (SlickException e) {
                 e.printStackTrace();
             }

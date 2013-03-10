@@ -13,8 +13,8 @@ public class Fir extends AbstractTree {
 
     static {
         try {
-            setCutDownImg(new Image("res/firstump.png"));
-            setAliveImg(new Image("res/fir.png"));
+            setCutDownImg(new Image("HoneyBadger/res/firstump.png"));
+            setAliveImg(new Image("HoneyBadger/res/fir.png"));
             getCutDownImg().setFilter(Image.FILTER_NEAREST);
             getAliveImg().setFilter(Image.FILTER_NEAREST);
         } catch (SlickException e) {

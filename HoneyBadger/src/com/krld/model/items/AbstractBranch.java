@@ -33,7 +33,7 @@ public abstract class AbstractBranch extends Unit implements Collective, Seriali
     public void draw(int x, int y) {
         if (img == null) {
             try {
-                img = new Image("res/branch.png");
+                img = new Image("HoneyBadger/res/branch.png");
                 img.setFilter(Image.FILTER_NEAREST);
             } catch (SlickException e) {
                 e.printStackTrace();

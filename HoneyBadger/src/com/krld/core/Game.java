@@ -104,10 +104,10 @@ public class Game extends BasicGame {
         }  */
         if (runningType == RUNNING_CLIENT) {
             try {
-                inventoryBackground = new Image("res/inventoryBackground.png");
-                alphaMap = new Image("res/playerGlow.png");
-                vignettingImage = new Image("res/vignetting.png");
-                nightImage = new Image("res/black.png");
+                inventoryBackground = new Image("HoneyBadger/res/inventoryBackground.png");
+                alphaMap = new Image("HoneyBadger/res/playerGlow.png");
+                vignettingImage = new Image("HoneyBadger/res/vignetting.png");
+                nightImage = new Image("HoneyBadger/res/black.png");
                 nightImageOriginal = nightImage;
                 vignettingFilter = new Color(1, 1, 1, 0.5f);
                 brightness = 0f;

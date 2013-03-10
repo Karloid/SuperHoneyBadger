@@ -21,12 +21,12 @@ public class MyTile {
 
     static {
         try {
-            GRASS_IMG = new Image("res/grass.png");
-            FORES_GRASS_IMG = new Image("res/grass2.png");
-            STONE_IMG = new Image("res/stone.gif");
-            DIRT_IMG = new Image("res/dirt.png");
-            WATER_IMG = new Image("res/water.png");
-            WATER2_IMG = new Image("res/water2.png");
+            GRASS_IMG = new Image("HoneyBadger/res/grass.png");
+            FORES_GRASS_IMG = new Image("HoneyBadger/res/grass2.png");
+            STONE_IMG = new Image("HoneyBadger/res/stone.gif");
+            DIRT_IMG = new Image("HoneyBadger/res/dirt.png");
+            WATER_IMG = new Image("HoneyBadger/res/water.png");
+            WATER2_IMG = new Image("HoneyBadger/res/water2.png");
             GRASS_IMG.setFilter(Image.FILTER_NEAREST);
             FORES_GRASS_IMG.setFilter(Image.FILTER_NEAREST);
             STONE_IMG.setFilter(Image.FILTER_NEAREST);

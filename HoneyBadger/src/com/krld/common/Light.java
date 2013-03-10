@@ -80,7 +80,7 @@ public class Light implements Serializable {
     public void draw() {
         if (img == null) {
             try {
-                img = new Image("res/meteorGlow.png");
+                img = new Image("HoneyBadger/res/meteorGlow.png");
             } catch (SlickException e) {
                 e.printStackTrace();
             }

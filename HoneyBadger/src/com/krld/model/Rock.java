@@ -8,7 +8,7 @@ public class Rock extends Unit implements Located {
 
     static {
         try {
-            img = new Image("res/cobble.png");
+            img = new Image("HoneyBadger/res/cobble.png");
             img.setFilter(Image.FILTER_NEAREST);
         } catch (SlickException e) {
             e.printStackTrace();

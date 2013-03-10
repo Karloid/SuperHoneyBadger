@@ -82,10 +82,10 @@ public class Player extends LiveForm implements Living {
     public void draw() {
         if (imgLeft == null) {
             try {
-                setImgLeft(new Image("res/ghost_left.png"));
-                setImgRight(new Image("res/ghost_right.png"));
-                setImgTop(new Image("res/ghost_top.png"));
-                setImgBot(new Image("res/ghost_bot.png"));
+                setImgLeft(new Image("HoneyBadger/res/ghost_left.png"));
+                setImgRight(new Image("HoneyBadger/res/ghost_right.png"));
+                setImgTop(new Image("HoneyBadger/res/ghost_top.png"));
+                setImgBot(new Image("HoneyBadger/res/ghost_bot.png"));
             } catch (SlickException e) {
                 e.printStackTrace();
             }

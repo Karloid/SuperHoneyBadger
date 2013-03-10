@@ -12,8 +12,8 @@ public class Wolf extends LiveForm {
 
     static {
         try {
-            alive = new Image("res/wolf.png");
-            dead = new Image("res/wolf.png");
+            alive = new Image("HoneyBadger/res/wolf.png");
+            dead = new Image("HoneyBadger/res/wolf.png");
             dead.setFilter(Image.FILTER_NEAREST);
             alive.setFilter(Image.FILTER_NEAREST);
         } catch (SlickException e) {

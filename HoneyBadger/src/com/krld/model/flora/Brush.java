@@ -13,8 +13,8 @@ public class Brush extends Unit implements Collective {
 
     static {
         try {
-            empty = new Image("res/brush.png");
-            full = new Image("res/brushberry.png");
+            empty = new Image("HoneyBadger/res/brush.png");
+            full = new Image("HoneyBadger/res/brushberry.png");
             empty.setFilter(Image.FILTER_NEAREST);
             full.setFilter(Image.FILTER_NEAREST);
         } catch (SlickException e) {
