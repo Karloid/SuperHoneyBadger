@@ -1,6 +1,6 @@
 package com.krld.model.flora;
 
-import com.krld.model.AbstractAxe;
+import com.krld.model.items.AbstractAxe;
 import com.krld.model.Equip;
 import com.krld.model.live.Player;
 import com.krld.model.items.FirBranch;

@@ -1,6 +1,8 @@
 package com.krld.common;
 
 import com.krld.model.*;
+import com.krld.model.Cobble;
+import com.krld.model.items.Stone;
 import com.krld.model.live.animals.Boar;
 import com.krld.model.live.animals.Rabbit;
 import com.krld.model.live.animals.Wolf;
@@ -212,14 +214,17 @@ public class WorldGenerator {
 
     private static void generateUnitOnStone(int x, int y, ArrayList<Located> units) {
         int randomValue = (int) (Math.random() * 100);
+        gameState.getDrops().add(new Stone((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
         if (randomValue < 85) {
             return;
         }
         int random = (int) (Math.random() * 10);
 
         if (random > 3) {
-            units.add(new Rock((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
-        } else {
+            units.add(new Cobble((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
+        } else if (random > 8) {
+            gameState.getDrops().add(new Stone((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
+        } else{
             units.add(new Fir((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
         }
     }

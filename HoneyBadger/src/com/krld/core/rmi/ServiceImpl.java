@@ -109,7 +109,7 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     }
 
     @Override
-    public void useRecipe(long id, int cursorPosition) {
+    public void useRecipe(long id, int cursorPosition)  throws RemoteException {
         Player p = findPlayerById(id);
         int i = 0;
         for (Recipe recipe : p.getRecipes()) {

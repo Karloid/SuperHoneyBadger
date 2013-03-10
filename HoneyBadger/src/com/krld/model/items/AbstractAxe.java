@@ -1,22 +1,28 @@
-package com.krld.model;
+package com.krld.model.items;
 
+import com.krld.model.Collective;
+import com.krld.model.Dropable;
+import com.krld.model.Unit;
 import com.krld.model.live.Player;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import java.io.Serializable;
 
-public class AbstractAxe extends Unit implements  Collective, Serializable, Dropable {
+public abstract class AbstractAxe extends Unit implements Collective, Serializable, Dropable {
     private static Image img;
+    private boolean dropped;
 
     @Override
     public void pickUp() {
-
+       dropped = false;
     }
 
     @Override
     public void drop(int x, int y) {
-
+        dropped = true;
+        setX(x);
+        setY(y);
     }
 
     @Override
@@ -25,17 +31,16 @@ public class AbstractAxe extends Unit implements  Collective, Serializable, Drop
     }
 
     @Override
-    public void draw() {
+    public void draw(int x, int y) {
         if (img == null) {
             try {
-                img = new Image("res/axe.png");
+                img = new Image("HoneyBadger/res/stoneAxe.png");
                 img.setFilter(Image.FILTER_NEAREST);
             } catch (SlickException e) {
                 e.printStackTrace();
             }
         }
-        img.drawCentered(getX(), getY());
-
+        img.drawCentered(x, y);
     }
 
     @Override

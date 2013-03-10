@@ -504,9 +504,9 @@ public class Game extends BasicGame {
                 g.setColor(Color.orange);
                 g.fillRect((float) drawX - 16, (float) drawY - 16, 32f, 32f);
                 g.setColor(Color.gray);
-                g.fillRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO - 3, viewPort.getY() + InventoryRenderSettings.Y_INFO, 200f, 64f, 5);
+                g.fillRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO - 3, viewPort.getY() + InventoryRenderSettings.Y_INFO, 300f, 64f, 5);
                 g.setColor(Color.black);
-                g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO - 3, viewPort.getY() + InventoryRenderSettings.Y_INFO, 200f, 64f, 5);
+                g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO - 3, viewPort.getY() + InventoryRenderSettings.Y_INFO, 300f, 64f, 5);
                 g.setColor(Color.orange);
                 g.drawString(recipe.toString(), viewPort.getX() + InventoryRenderSettings.X_RECIPES_INFO, viewPort.getY() + InventoryRenderSettings.Y_INFO);
                 g.setColor(Color.white);

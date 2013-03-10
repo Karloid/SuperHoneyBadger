@@ -33,7 +33,7 @@ public class Player extends LiveForm implements Living {
         setHp(50);
         setHunger(50);
         setRecipes(new ArrayList<Recipe>());
-        getRecipes().add(new AxeRecipe());
+        getRecipes().add(new StoneAxeRecipe());
     }
 
     public static Image getImgLeft() {

@@ -3,7 +3,7 @@ package com.krld.model;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Rock extends Unit implements Located {
+public class Cobble extends Unit implements Located {
     private static Image img;
 
     static {
@@ -15,7 +15,7 @@ public class Rock extends Unit implements Located {
         }
     }
 
-    public Rock(int x, int y) {
+    public Cobble(int x, int y) {
         setX(x);
         setY(y);
     }
