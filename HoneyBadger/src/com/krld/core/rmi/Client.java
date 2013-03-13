@@ -12,12 +12,16 @@ public class Client {
     private Game game;
 
     public static void main(String[] args) {
-        new Client().go();
+        String hostname = "127.0.0.1";
+        if (args.length == 2) {
+            hostname = args[1];
+        }
+        new Client().go(hostname);
     }
 
-    private void go() {
+    private void go(String hostname) {
         try {
-            service = (Service) Naming.lookup("rmi://127.0.0.1/HoneyBadgerRemote");
+            service = (Service) Naming.lookup("rmi://" + hostname + "/HoneyBadgerRemote");
             String s = service.sayHello();
             System.out.println(s);
             runGameClient();
