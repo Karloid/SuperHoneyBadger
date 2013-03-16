@@ -3,11 +3,11 @@ package com.krld.core.rmi;
 import com.krld.common.Light;
 import com.krld.common.MoveDirection;
 import com.krld.core.Game;
-import com.krld.model.Collective;
-import com.krld.model.Equip;
+import com.krld.model.items.Collective;
+import com.krld.model.items.Equip;
 import com.krld.model.FireBall;
 import com.krld.model.Located;
-import com.krld.model.recipe.Recipe;
+import com.krld.model.recipe.AbstractRecipe;
 import com.krld.model.container.GameState;
 import com.krld.model.character.Player;
 import org.newdawn.slick.AppGameContainer;
@@ -90,9 +90,10 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     }
 
     @Override
-    public void dropItem(long id) throws RemoteException {
+    public void dropItem(long id, int cursorPosition) throws RemoteException {
         Player p = findPlayerById(id);
-        p.dropItem();
+        p.dropItem(cursorPosition);
+
     }
 
     @Override
@@ -112,7 +113,7 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     public void useRecipe(long id, int cursorPosition) throws RemoteException {
         Player p = findPlayerById(id);
         int i = 0;
-        for (Recipe recipe : p.getRecipes()) {
+        for (AbstractRecipe recipe : p.getRecipes()) {
             if (i == cursorPosition) {
                 recipe.craft(p);
                 break;
@@ -126,6 +127,11 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     public void setEquippedItem(long id, int cursorPosition) throws RemoteException {
         Player p = findPlayerById(id);
         int i = 0;
+        if (cursorPosition == -1) {
+            p.getInventory().getItems().add(p.getEquipped());
+            p.setEquipped(null);
+            return;
+        }
         for (Collective item : p.getInventory().getItems()) {
             if (i == cursorPosition) {
                 if (item instanceof Equip) {

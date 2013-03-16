@@ -1,4 +1,7 @@
-package com.krld.model;
+package com.krld.model.items;
+
+import com.krld.model.Located;
+import com.krld.model.MyDrawable;
 
 /**
  * Created with IntelliJ IDEA.

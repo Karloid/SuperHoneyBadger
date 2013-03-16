@@ -1,10 +1,11 @@
 package com.krld.model.container;
 
 import com.krld.common.Light;
-import com.krld.model.Dropable;
+import com.krld.model.items.Dropable;
 import com.krld.model.Located;
 import com.krld.model.Moveable;
 import com.krld.model.character.Player;
+import com.krld.model.items.Lifting;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,6 +78,15 @@ public class GameState implements Serializable {
 
     public void setShells(ArrayList<Moveable> shells) {
         getGameObjects().shells = shells;
+
+    }
+
+    public ArrayList<Lifting> getLifting() {
+        return getGameObjects().lifting;
+    }
+
+    public void setLifting(ArrayList<Lifting> lifting) {
+        getGameObjects().lifting = lifting;
 
     }
 }

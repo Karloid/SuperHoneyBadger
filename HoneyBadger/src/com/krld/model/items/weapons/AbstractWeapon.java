@@ -1,8 +1,8 @@
-package com.krld.model.items;
+package com.krld.model.items.weapons;
 
-import com.krld.model.Collective;
-import com.krld.model.Dropable;
-import com.krld.model.Equip;
+import com.krld.model.items.Collective;
+import com.krld.model.items.Dropable;
+import com.krld.model.items.Equip;
 import com.krld.model.Unit;
 import com.krld.model.character.Player;
 import org.newdawn.slick.Image;
@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 
 import java.io.Serializable;
 
-public abstract class AbstractAxe extends Unit implements Collective, Serializable, Dropable, Equip {
+public abstract class AbstractWeapon extends Unit implements Collective, Serializable, Dropable, Equip {
     private static Image img;
     private boolean dropped;
 
@@ -35,7 +35,7 @@ public abstract class AbstractAxe extends Unit implements Collective, Serializab
     public void draw(int x, int y) {
         if (img == null) {
             try {
-                img = new Image("HoneyBadger/res/stoneAxe.png");
+                img = new Image("HoneyBadger/res/unknown.png");
                 img.setFilter(Image.FILTER_NEAREST);
             } catch (SlickException e) {
                 e.printStackTrace();

@@ -1,6 +1,6 @@
 package com.krld.model.flora;
 
-import com.krld.model.Collective;
+import com.krld.model.items.Collective;
 import com.krld.model.character.Player;
 import com.krld.model.Unit;
 import com.krld.model.items.food.Berries;

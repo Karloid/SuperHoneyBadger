@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import java.io.Serializable;
 
-public abstract class Recipe implements Serializable, MyDrawable {
+public abstract class AbstractRecipe implements Serializable, MyDrawable {
     protected Image img;
 
     @Override

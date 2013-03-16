@@ -1,6 +1,6 @@
 package com.krld.model.character;
 
-import com.krld.model.Collective;
+import com.krld.model.items.Collective;
 
 import java.io.Serializable;
 import java.util.ArrayList;

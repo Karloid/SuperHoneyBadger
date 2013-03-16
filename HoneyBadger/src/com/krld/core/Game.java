@@ -5,7 +5,11 @@ import com.krld.core.rmi.Service;
 import com.krld.model.*;
 import com.krld.model.container.GameState;
 import com.krld.model.character.Player;
-import com.krld.model.recipe.Recipe;
+import com.krld.model.items.Collective;
+import com.krld.model.items.Dropable;
+import com.krld.model.items.Equip;
+import com.krld.model.items.Lifting;
+import com.krld.model.recipe.AbstractRecipe;
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.*;
 import org.newdawn.slick.imageout.ImageOut;
@@ -154,6 +158,7 @@ public class Game extends BasicGame {
         getGameState().setPlayers(new ArrayList<Player>());
         getGameState().setLights(new ArrayList<Light>());
         getGameState().setDrops(new ArrayList<Dropable>());
+        getGameState().setLifting(new ArrayList<Lifting>());
 
         getGameState().setTileMap(WorldGenerator.generateTiles());
         WorldGenerator.generateUnits(getGameState().getObjects(), getGameState().getTileMap(), getGameState().getMoveables(), getGameState());
@@ -178,7 +183,7 @@ public class Game extends BasicGame {
                     }
                 }
                 handleInput(container);
-            } catch (Exception e) {                                  //Найди мненя.
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (runningType == RUNNING_SERVER) {
@@ -253,21 +258,13 @@ public class Game extends BasicGame {
             }
         }
         if (showInventory && input.isKeyPressed(Input.KEY_UP)) {
-    /*        skipInventoryElements--;
-            if (skipInventoryElements < 0) {
-                skipInventoryElements = 0;
-            }
-            */
             cursorPosition -= 8;
             if (cursorPosition < 0) {
                 cursorPosition = 0;
             }
         }
         if (showInventory && input.isKeyPressed(Input.KEY_RIGHT)) {
-            //  skipInventoryElements++;
-            if (player.getInventory().getItems().size() - 1 > cursorPosition) {
-                cursorPosition++;
-            }
+            cursorPosition++;
         }
         if (showInventory && input.isKeyPressed(Input.KEY_DOWN)) {
             //  skipInventoryElements++;
@@ -289,14 +286,19 @@ public class Game extends BasicGame {
                 service.setEquippedItem(getPlayer().getId(), cursorPosition);
             }
         }
+        if (showInventory && input.isKeyPressed(Input.KEY_V)) {
+            if (activeInventoryScope == InventoryRenderSettings.ITEMS_SCOPE) {
+                service.setEquippedItem(getPlayer().getId(), -1);
+            }
+        }
         getViewPort().setX((int) (getPlayer().getX() - getWidth() / (2 * zoomFactor)));
         getViewPort().setY((int) (getPlayer().getY() - getHeight() / (2 * zoomFactor)));
 
         if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             service.castFireball(getPlayer());
         }
-        if (input.isMousePressed(Input.MOUSE_MIDDLE_BUTTON)) {
-            service.dropItem(getPlayer().getId());
+        if (showInventory && input.isKeyPressed(Input.KEY_F)) {
+            service.dropItem(getPlayer().getId(), cursorPosition);
         }
         if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
             /*
@@ -400,7 +402,7 @@ public class Game extends BasicGame {
                 if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
                         playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
                     unit.draw();
-                  //  g.drawString(((Unit)unit).isMakeCollisions() + "", unit.getX(),unit.getY());
+                    //  g.drawString(((Unit)unit).isMakeCollisions() + "", unit.getX(),unit.getY());
                 }
             }
             for (Moveable unit : getGameState().getMoveables()) {
@@ -415,16 +417,23 @@ public class Game extends BasicGame {
                     shell.draw();
                 }
             }
+            for (Lifting lift : getGameState().getLifting()) {
+                if (playerX - 15 * 32 < lift.getX() && playerX + 15 * 32 > lift.getX() &&
+                        playerY - 15 * 32 < lift.getY() && playerY + 15 * 32 > lift.getY()) {
+                    lift.draw();
+                }
+            }
             for (Player player1 : gameState.getPlayers()) {
+
+                player1.draw();
+                Equip equipped = player1.getEquipped();
+                if (equipped != null) {
+                    equipped.draw(player1.getX(),player1.getY()-16);
+                }
                 if (!getPlayer().equals(player1)) {
-                    player1.draw();
                     g.drawString("id: " + player1.getId(), player1.getX(), player1.getY() - 40);
                 }
             }
-
-            //g.drawString("Hello World! x: y: " + viewPort.getX() + " " + viewPort.getY(), 100, 100);
-            // g.drawString(getPlayer().getInventory().printItems(), 100, 100);
-            getPlayer().draw();
         }
         ;
         vignettingImage.draw(getViewPort().getX(), getViewPort().getY(), vignettingFilter);
@@ -466,7 +475,7 @@ public class Game extends BasicGame {
         g.setColor(Color.black);
         g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_MARGIN, viewPort.getY() + InventoryRenderSettings.Y_MARGIN, 282, 300, 5);
         g.setColor(Color.white);
-        g.drawString("Arrow keys - navigate; x - use item; c - equip item;", viewPort.getX() + 100, viewPort.getY() + 554);
+        g.drawString("Arrow keys - navigate; x - use item; c - equip item; v - disarm; f - drop item;", viewPort.getX(), viewPort.getY() + 554);
         int shiftX = 0;
         int shiftY = 0;
         int i = 0;
@@ -508,7 +517,7 @@ public class Game extends BasicGame {
         drawX = 0;
         drawY = 0;
 
-        for (Recipe recipe : player.getRecipes()) {
+        for (AbstractRecipe recipe : player.getRecipes()) {
             drawX = viewPort.getX() + InventoryRenderSettings.X_RECIPES_PADDING + shiftX;
             drawY = viewPort.getY() + InventoryRenderSettings.Y_PADDING + shiftY;
             if (i == cursorPosition && activeInventoryScope == InventoryRenderSettings.RECIPE_SCOPE) {
@@ -537,7 +546,7 @@ public class Game extends BasicGame {
         g.setColor(Color.black);
         g.drawRoundRect(viewPort.getX() + InventoryRenderSettings.X_EQUIP, viewPort.getY() + InventoryRenderSettings.Y_INFO, 60, 55, 5);
         g.setColor(Color.white);
-        g.drawString("Hands:", viewPort.getX() + InventoryRenderSettings.X_EQUIP + 4, viewPort.getY() + InventoryRenderSettings.Y_INFO );
+        g.drawString("Hands:", viewPort.getX() + InventoryRenderSettings.X_EQUIP + 4, viewPort.getY() + InventoryRenderSettings.Y_INFO);
         if (equip != null) {
 
             equip.draw(viewPort.getX() + InventoryRenderSettings.X_EQUIP + 3 + 16, viewPort.getY() + InventoryRenderSettings.Y_INFO + 18 + 16);

@@ -29,7 +29,7 @@ public interface Service extends Remote {
 
     void useAction(long id) throws RemoteException;
 
-    void dropItem(long id) throws RemoteException;
+    void dropItem(long id, int cursorPosition) throws RemoteException;
 
     void useItemFromInventory(long id, int cursorPosition) throws RemoteException;
 

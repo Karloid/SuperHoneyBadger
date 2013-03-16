@@ -2,10 +2,12 @@ package com.krld.model.character;
 
 import com.krld.common.MoveDirection;
 import com.krld.model.*;
+import com.krld.model.items.Collective;
+import com.krld.model.items.Dropable;
+import com.krld.model.items.Equip;
 import com.krld.model.live.LiveForm;
 import com.krld.model.live.Living;
-import com.krld.model.recipe.Recipe;
-import com.krld.model.recipe.StoneAxeRecipe;
+import com.krld.model.recipe.*;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -22,7 +24,7 @@ public class Player extends LiveForm implements Living {
     private Inventory inventory;
     private long id;
     private MoveDirection moveDirection;
-    private ArrayList<Recipe> recipes;
+    private ArrayList<AbstractRecipe> recipes;
     private Equip equip;
 
     public Player(int x, int y) {
@@ -37,8 +39,11 @@ public class Player extends LiveForm implements Living {
         setMaxHunger(100);
         setHp(50);
         setHunger(50);
-        setRecipes(new ArrayList<Recipe>());
+        setRecipes(new ArrayList<AbstractRecipe>());
         getRecipes().add(new StoneAxeRecipe());
+        getRecipes().add(new StonePickRecipe());
+        getRecipes().add(new StoneShovelRecipe());
+        getRecipes().add(new StoneSwordRecipe());
     }
 
     public static Image getImgLeft() {
@@ -242,11 +247,9 @@ public class Player extends LiveForm implements Living {
 
     }
 
-    public void dropItem() {
-        //TODO сделать зависимость от направления взгляда
+    public void dropItem(int itemNumber) {
         int x = 0;
         int y = 0;
-        this.moveDirection = moveDirection;
         switch (moveDirection) {
             case TOP:
                 x = this.getX();
@@ -266,13 +269,15 @@ public class Player extends LiveForm implements Living {
                 break;
         }
         HashSet<Collective> toRemoveItems = new HashSet<Collective>();
+        int i = 0;
         for (Collective item : getInventory().getItems()) {
-            if (item instanceof Dropable) {
+            if (i == itemNumber && item instanceof Dropable) {
                 ((Dropable) item).drop(x, y);
                 gameState.getDrops().add((Dropable) item);
                 toRemoveItems.add(item);
                 break;
             }
+            i++;
         }
         getInventory().getItems().removeAll(toRemoveItems);
     }
@@ -281,11 +286,11 @@ public class Player extends LiveForm implements Living {
         return equip;
     }
 
-    public ArrayList<Recipe> getRecipes() {
+    public ArrayList<AbstractRecipe> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(ArrayList<Recipe> recipes) {
+    public void setRecipes(ArrayList<AbstractRecipe> recipes) {
         this.recipes = recipes;
     }
 
