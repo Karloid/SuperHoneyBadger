@@ -1,6 +1,6 @@
 package com.krld.model.items;
 
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 
 public class FirBranch extends AbstractBranch {
     @Override

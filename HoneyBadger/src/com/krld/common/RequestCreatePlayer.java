@@ -2,7 +2,7 @@ package com.krld.common;
 
 
 import com.krld.core.Game;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 
 import java.util.Calendar;
 

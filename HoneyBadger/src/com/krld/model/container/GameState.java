@@ -4,7 +4,7 @@ import com.krld.common.Light;
 import com.krld.model.Dropable;
 import com.krld.model.Located;
 import com.krld.model.Moveable;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;

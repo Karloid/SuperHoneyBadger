@@ -1,7 +1,9 @@
-package com.krld.model.live;
+package com.krld.model.character;
 
 import com.krld.common.MoveDirection;
 import com.krld.model.*;
+import com.krld.model.live.LiveForm;
+import com.krld.model.live.Living;
 import com.krld.model.recipe.Recipe;
 import com.krld.model.recipe.StoneAxeRecipe;
 import org.newdawn.slick.Image;

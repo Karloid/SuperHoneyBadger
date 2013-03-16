@@ -2,7 +2,7 @@ package com.krld.model.items.food;
 
 import com.krld.model.Collective;
 import com.krld.model.Dropable;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import com.krld.model.Unit;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

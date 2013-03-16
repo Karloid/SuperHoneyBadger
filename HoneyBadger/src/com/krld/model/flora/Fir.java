@@ -1,10 +1,9 @@
 package com.krld.model.flora;
 
 import com.krld.model.Equip;
-import com.krld.model.WoodLog;
+import com.krld.model.character.Player;
 import com.krld.model.items.AbstractAxe;
 import com.krld.model.items.FirBranch;
-import com.krld.model.live.Player;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -63,7 +62,7 @@ public class Fir extends AbstractTree {
         if (equip != null && equip instanceof AbstractAxe) {
             if (!isCutDown()) {
                 setCutDown(true);
-                gameState.getDrops().add(new WoodLog(getX(), getY()));
+                //gameState.getDrops().add(new WoodLog(getX(), getY()));
             }
         } else if (!isCutDown()) {
             p.getInventory().getItems().add(new FirBranch());

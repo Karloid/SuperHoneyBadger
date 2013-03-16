@@ -2,7 +2,7 @@ package com.krld.core.rmi;
 
 import com.krld.model.container.GameState;
 import com.krld.common.MoveDirection;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

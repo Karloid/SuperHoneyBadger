@@ -2,7 +2,7 @@ package com.krld.core;
 
 import com.krld.common.MyRequest;
 import com.krld.common.MyResponse;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 

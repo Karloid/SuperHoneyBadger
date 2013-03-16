@@ -4,7 +4,7 @@ import com.krld.model.Collective;
 import com.krld.model.items.AbstractBranch;
 import com.krld.model.items.AbstractStone;
 import com.krld.model.items.StoneAxe;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 

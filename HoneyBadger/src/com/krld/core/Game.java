@@ -4,7 +4,7 @@ import com.krld.common.*;
 import com.krld.core.rmi.Service;
 import com.krld.model.*;
 import com.krld.model.container.GameState;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import com.krld.model.recipe.Recipe;
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.*;
@@ -57,12 +57,12 @@ public class Game extends BasicGame {
     private int activeInventoryScope;
 
     public Game(int mode) {
-        super("com.krld Server");
+        super("Server");
         runningType = mode;
     }
 
     public Game(int runningClient, Service service) {
-        super("com.krld Client");
+        super("Client");
         runningType = runningClient;
         this.service = service;
     }
@@ -119,19 +119,7 @@ public class Game extends BasicGame {
                 this.gameState = service.getGameState();
                 setPlayer(service.getNewPlayer());
 
-                m = new Music("HoneyBadger/res/MainTheme.wav");
-                mLoop = new Music("HoneyBadger/res/MainThemeLoop.wav");
-                m.addListener(new MusicListener() {
-                    @Override
-                    public void musicEnded(Music music) {
-                        mLoop.loop();
-                    }
-
-                    @Override
-                    public void musicSwapped(Music music, Music music2) {
-                    }
-                });
-                m.play();
+                //startMusic();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -139,6 +127,22 @@ public class Game extends BasicGame {
         } else {
             initGameState();
         }
+    }
+
+    private void startMusic() throws SlickException {
+        m = new Music("HoneyBadger/res/MainTheme.wav");
+        mLoop = new Music("HoneyBadger/res/MainThemeLoop.wav");
+        m.addListener(new MusicListener() {
+            @Override
+            public void musicEnded(Music music) {
+                mLoop.loop();
+            }
+
+            @Override
+            public void musicSwapped(Music music, Music music2) {
+            }
+        });
+        m.play();
     }
 
     public void initGameState() {

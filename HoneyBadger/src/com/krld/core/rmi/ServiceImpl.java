@@ -9,7 +9,7 @@ import com.krld.model.FireBall;
 import com.krld.model.Located;
 import com.krld.model.recipe.Recipe;
 import com.krld.model.container.GameState;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;

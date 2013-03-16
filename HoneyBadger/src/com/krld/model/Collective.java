@@ -1,6 +1,6 @@
 package com.krld.model;
 
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 
 public interface Collective extends MyDrawable{
     void useFromInventory(Player p);

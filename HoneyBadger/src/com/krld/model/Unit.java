@@ -3,8 +3,9 @@ package com.krld.model;
 import com.krld.common.LifeTimeException;
 import com.krld.common.Light;
 import com.krld.common.MoveDirection;
+import com.krld.core.Log;
 import com.krld.model.container.GameState;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import org.lwjgl.util.Point;
 import org.newdawn.slick.Image;
 
@@ -201,7 +202,9 @@ public abstract class Unit implements MyDrawable, Located, Serializable, Moveabl
         }
         for (Located locatedObject : getGameState().getObjects()) {
             try {
-                if (locatedObject.getX() < x + 16 && locatedObject.getX() > x - 16 && locatedObject.getY() < y + 16 && locatedObject.getY() > y - 16 /*&& isMakeCollisions()*/) {
+                if (locatedObject.getX() < x + 16 && locatedObject.getX() > x - 16
+                        && locatedObject.getY() < y + 16 && locatedObject.getY() > y - 16 && locatedObject.isMakeCollisions()) {
+                    Log.i("Collisions make: - " + locatedObject.getX() + " " + locatedObject.getY() + " " + locatedObject.toString());
                     return false;
                 }
             } catch (Exception e) {

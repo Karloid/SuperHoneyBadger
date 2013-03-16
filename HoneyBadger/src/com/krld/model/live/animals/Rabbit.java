@@ -3,7 +3,7 @@ package com.krld.model.live.animals;
 import com.krld.common.LifeTimeException;
 import com.krld.common.MoveDirection;
 import com.krld.model.live.LiveForm;
-import com.krld.model.live.Player;
+import com.krld.model.character.Player;
 import org.lwjgl.util.Point;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
