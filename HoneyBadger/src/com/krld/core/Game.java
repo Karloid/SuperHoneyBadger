@@ -174,7 +174,7 @@ public class Game extends BasicGame {
                     }
                 }
                 handleInput(container);
-            } catch (Exception e) {
+            } catch (Exception e) {                                  //Найди мненя.
                 e.printStackTrace();
             }
         } else if (runningType == RUNNING_SERVER) {
