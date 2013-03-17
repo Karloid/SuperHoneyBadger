@@ -14,6 +14,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Random;
@@ -172,7 +173,7 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
             Service service = new ServiceImpl();
          //   Registry registry = LocateRegistry.getRegistry("192.168.1.144", 1099);
         //    registry.rebind("HoneyBadgerRemote", service);
- /*        Naming.rebind("HoneyBadgerRemote", service);*/
+        Naming.rebind("HoneyBadgerRemote", service);
             runGameServer(service);
         } catch (Exception e) {
             e.printStackTrace();

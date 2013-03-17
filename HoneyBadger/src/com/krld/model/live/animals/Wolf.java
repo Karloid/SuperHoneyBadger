@@ -60,22 +60,7 @@ public class Wolf extends LiveForm {
     @Override
     public void draw() {
         if (leftAnimation == null) {
-            try {
-                Image left = new Image("HoneyBadger/res/wolfAnimation.png");
-                Image right = left.getFlippedCopy(true, false);
-                SpriteSheet leftSpriteSheet = new SpriteSheet(left, 32, 32, 0, 0);
-                SpriteSheet rightSpriteSheet = new SpriteSheet(right, 32, 32, 0, 0);
-
-                leftSpriteSheet.setFilter(Image.FILTER_NEAREST);
-                rightSpriteSheet.setFilter(Image.FILTER_NEAREST);
-
-                leftAnimation = new Animation(leftSpriteSheet, 300);
-                rightAnimation = new Animation(rightSpriteSheet, 300);
-                rightAnimation.setAutoUpdate(true);
-                leftAnimation.setAutoUpdate(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            initSprite();
         }
         Animation imgToDraw = null;
         if (getMovieDirection() == MoveDirection.LEFT) {
@@ -93,6 +78,25 @@ public class Wolf extends LiveForm {
             imgToDraw.getImage(stopFrameIndex).draw(getX(), getY());
         } else {
             imgToDraw.draw(getX(), getY());
+        }
+    }
+
+    private void initSprite() {
+        try {
+            Image left = new Image("HoneyBadger/res/wolfAnimation.png");
+            Image right = left.getFlippedCopy(true, false);
+            SpriteSheet leftSpriteSheet = new SpriteSheet(left, 32, 32, 0, 0);
+            SpriteSheet rightSpriteSheet = new SpriteSheet(right, 32, 32, 0, 0);
+
+            leftSpriteSheet.setFilter(Image.FILTER_NEAREST);
+            rightSpriteSheet.setFilter(Image.FILTER_NEAREST);
+
+            leftAnimation = new Animation(leftSpriteSheet, 300);
+            rightAnimation = new Animation(rightSpriteSheet, 300);
+            rightAnimation.setAutoUpdate(true);
+            leftAnimation.setAutoUpdate(true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

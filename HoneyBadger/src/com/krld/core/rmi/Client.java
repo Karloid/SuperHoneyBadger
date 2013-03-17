@@ -21,7 +21,7 @@ public class Client {
 
     private void go(String hostname) {
         try {
-            service = (Service) Naming.lookup("rmi://" + hostname + "/HoneyBadgerRemote");
+            service = (Service) Naming.lookup("rmi://" + hostname + ":1099/HoneyBadgerRemote");
             String s = service.sayHello();
             System.out.println(s);
             runGameClient();

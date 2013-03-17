@@ -6,24 +6,11 @@ import com.krld.model.Unit;
 import com.krld.model.items.food.Berries;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
 public class Brush extends Unit implements Collective {
-    private static Image empty;
-    private static Image full;
-
-    static {
-        try {
-            empty = new Image("HoneyBadger/res/brush.png");
-            full = new Image("HoneyBadger/res/brushberry.png");
-            empty.setFilter(Image.FILTER_NEAREST);
-            full.setFilter(Image.FILTER_NEAREST);
-        } catch (SlickException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private boolean haveBerrys;
+    private static SpriteSheet spriteSheet;
 
     public Brush(int x, int y) {
         this.setX(x);
@@ -33,10 +20,24 @@ public class Brush extends Unit implements Collective {
 
     @Override
     public void draw() {
+        if (spriteSheet == null) {
+            initSprite();
+        }
         if (isHaveBerrys()) {
-            full.drawCentered(getX(), getY());
+            spriteSheet.getSprite(1,0).drawCentered(getX(), getY());
         } else {
-            empty.drawCentered(getX(), getY());
+            spriteSheet.getSprite(0,0).drawCentered(getX(), getY());
+        }
+    }
+
+    private void initSprite() {
+        try {
+            Image img = null;
+            img = new Image("HoneyBadger/res/brushberry.png");
+            spriteSheet = new SpriteSheet(img, 32, 32, 0, 0);
+            spriteSheet.setFilter(Image.FILTER_NEAREST);
+        } catch (SlickException e) {
+            e.printStackTrace();
         }
     }
 
