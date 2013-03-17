@@ -27,7 +27,8 @@ public class Fir extends AbstractTree {
         } else {
             img = getAliveImg();
         }
-        img.drawCentered(getX(), getY());
+        img.draw(getX(), getY(), 2);
+  //      img.drawCentered(getX(), getY());
     }
 
     private void initSprite() {

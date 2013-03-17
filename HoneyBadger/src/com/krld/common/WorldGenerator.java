@@ -207,9 +207,9 @@ public class WorldGenerator {
         int random = (int) (Math.random() * 10);
 
         if (random > 2) {
-            units.add(new Fir((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
+            units.add(new Fir((int) (x /*+ Math.random() * 32*/), (int) (y /*- Math.random() * 32*/)));
         } else {
-            units.add(new Brush((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
+            units.add(new Brush((int) (x /*+ Math.random() * 32*/), (int) (y /*- Math.random() * 32*/)));
         }
     }
 

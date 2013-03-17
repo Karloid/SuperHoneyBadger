@@ -31,7 +31,8 @@ public class AppleTree extends AbstractTree {
         } else {
             img = getCutDownImg();
         }
-        img.drawCentered(getX(), getY());
+        img.draw(getX(),getY(),2f);
+       // img.drawCentered(getX(), getY());
     }
 
     private void initSprite() {
