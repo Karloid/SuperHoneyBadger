@@ -3,18 +3,17 @@ package com.krld.core.rmi;
 import com.krld.common.Light;
 import com.krld.common.MoveDirection;
 import com.krld.core.Game;
-import com.krld.model.items.Collective;
-import com.krld.model.items.Equip;
 import com.krld.model.FireBall;
 import com.krld.model.Located;
-import com.krld.model.recipe.AbstractRecipe;
-import com.krld.model.container.GameState;
 import com.krld.model.character.Player;
+import com.krld.model.container.GameState;
+import com.krld.model.items.Collective;
+import com.krld.model.items.Equip;
+import com.krld.model.recipe.AbstractRecipe;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Random;
@@ -93,7 +92,6 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     public void dropItem(long id, int cursorPosition) throws RemoteException {
         Player p = findPlayerById(id);
         p.dropItem(cursorPosition);
-
     }
 
     @Override
@@ -172,7 +170,9 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     public static void main(String[] args) {
         try {
             Service service = new ServiceImpl();
-            Naming.rebind("HoneyBadgerRemote", service);
+         //   Registry registry = LocateRegistry.getRegistry("192.168.1.144", 1099);
+        //    registry.rebind("HoneyBadgerRemote", service);
+ /*        Naming.rebind("HoneyBadgerRemote", service);*/
             runGameServer(service);
         } catch (Exception e) {
             e.printStackTrace();
