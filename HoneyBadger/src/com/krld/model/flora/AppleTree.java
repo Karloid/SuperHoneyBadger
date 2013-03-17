@@ -1,7 +1,12 @@
 package com.krld.model.flora;
 
 import com.krld.model.character.Player;
+import com.krld.model.items.AppleBranch;
+import com.krld.model.items.Equip;
+import com.krld.model.items.FirBranch;
+import com.krld.model.items.WoodLog;
 import com.krld.model.items.food.Apple;
+import com.krld.model.items.weapons.AbstractAxe;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -32,7 +37,7 @@ public class AppleTree extends AbstractTree {
             img = getCutDownImg();
         }
         img.drawCentered(getX(), getY() - 16);
-       // img.drawCentered(getX(), getY());
+        // img.drawCentered(getX(), getY());
     }
 
     private void initSprite() {
@@ -65,10 +70,21 @@ public class AppleTree extends AbstractTree {
 
     @Override
     public void use(Player p) {
-        if (isHaveApples()) {
-            if (Math.random() < 0.3f) {
-            this.setHaveApples(false); }
-            p.getInventory().getItems().add(new Apple());
+        Equip equip = p.getEquipped();
+        if (equip != null && equip instanceof AbstractAxe) {
+            if (!isCutDown()) {
+                setCutDown(true);
+                gameState.getLifting().add(new WoodLog(getX(), getY() - 1));
+            }
+        } else if (!isCutDown()) {
+            if (isHaveApples()) {
+                if (Math.random() < 0.3f) {
+                    this.setHaveApples(false);
+                }
+                p.getInventory().getItems().add(new Apple());
+            } else {
+                p.getInventory().getItems().add(new AppleBranch());
+            }
         }
     }
 }

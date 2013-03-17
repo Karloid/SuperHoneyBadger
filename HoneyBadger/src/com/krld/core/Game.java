@@ -289,7 +289,7 @@ public class Game extends BasicGame {
                 service.setEquippedItem(getPlayer().getId(), cursorPosition);
             }
         }
-        if (showInventory && input.isKeyPressed(Input.KEY_V)) {
+        if (input.isKeyPressed(Input.KEY_V)) {
             if (activeInventoryScope == InventoryRenderSettings.ITEMS_SCOPE) {
                 service.setEquippedItem(getPlayer().getId(), -1);
             }
