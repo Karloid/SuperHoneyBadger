@@ -6,8 +6,10 @@ public abstract class AbstractTree extends Unit {
 
     private boolean cutDown;
 
-    public AbstractTree() {
+    public AbstractTree(int x, int y) {
         cutDown = false;
+        setX(x);
+        setY(y);
     }
 
     public boolean isCutDown() {

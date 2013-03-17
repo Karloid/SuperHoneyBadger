@@ -1,9 +1,9 @@
 package com.krld.model.flora;
 
-import com.krld.model.items.Equip;
-import com.krld.model.items.WoodLog;
 import com.krld.model.character.Player;
+import com.krld.model.items.Equip;
 import com.krld.model.items.FirBranch;
+import com.krld.model.items.WoodLog;
 import com.krld.model.items.weapons.AbstractAxe;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -12,7 +12,25 @@ public class Fir extends AbstractTree {
     private static Image cutDownImg;
     private static Image aliveImg;
 
-    static {
+    public Fir(int x, int y) {
+        super(x, y);
+    }
+
+    @Override
+    public void draw() {
+        if (aliveImg == null) {
+            initSprite();
+        }
+        Image img;
+        if (isCutDown()) {
+            img = getCutDownImg();
+        } else {
+            img = getAliveImg();
+        }
+        img.drawCentered(getX(), getY());
+    }
+
+    private void initSprite() {
         try {
             setCutDownImg(new Image("HoneyBadger/res/firstump.png"));
             setAliveImg(new Image("HoneyBadger/res/fir.png"));
@@ -21,24 +39,6 @@ public class Fir extends AbstractTree {
         } catch (SlickException e) {
             e.printStackTrace();
         }
-    }
-
-    public Fir(int x, int y) {
-        super();
-        setX(x);
-        setY(y);
-        setCutDown(false);
-    }
-
-    @Override
-    public void draw() {
-        Image img;
-        if (isCutDown()) {
-            img = getCutDownImg();
-        } else {
-            img = getAliveImg();
-        }
-        img.drawCentered(getX(), getY());
     }
 
     public static Image getCutDownImg() {

@@ -2,6 +2,7 @@ package com.krld.common;
 
 import com.krld.model.*;
 import com.krld.model.Cobble;
+import com.krld.model.flora.AppleTree;
 import com.krld.model.items.Stone;
 import com.krld.model.live.animals.Boar;
 import com.krld.model.live.animals.Rabbit;
@@ -239,7 +240,7 @@ public class WorldGenerator {
         if (random > 3) {
             units.add(new Brush((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
         } else {
-            units.add(new Fir((int) (x + Math.random() * 32), (int) (y - Math.random() * 32)));
+            units.add(new AppleTree((int) (x /* + Math.random() * 32*/), (int) (y /*- Math.random() * 32*/)));
         }
     }
 }

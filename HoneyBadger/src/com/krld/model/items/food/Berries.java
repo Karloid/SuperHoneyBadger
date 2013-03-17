@@ -1,19 +1,10 @@
 package com.krld.model.items.food;
 
-import com.krld.model.items.Collective;
-import com.krld.model.items.Dropable;
 import com.krld.model.character.Player;
-import com.krld.model.Unit;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import java.io.Serializable;
-
-public class Berries extends Unit implements Collective, Serializable, Dropable, Eatable {
-    private boolean dropped;
-    private static Image img;
-    private int hpBonus;
-    private int hungerBonus;
+public class Berries extends AbstractFood {
 
     public Berries() {
         this.dropped = false;
@@ -21,27 +12,7 @@ public class Berries extends Unit implements Collective, Serializable, Dropable,
         hungerBonus = 5;
     }
 
-    @Override
-    public String toString() {
-        return "Berries";
-    }
 
-    @Override
-    public void pickUp() {
-        dropped = false;
-    }
-
-    @Override
-    public void drop(int x, int y) {
-        dropped = true;
-        setX(x);
-        setY(y);
-    }
-
-    @Override
-    public boolean isDropped() {
-        return dropped;
-    }
 
     @Override
     public void draw(int x, int y) {
