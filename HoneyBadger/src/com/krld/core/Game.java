@@ -3,8 +3,8 @@ package com.krld.core;
 import com.krld.common.*;
 import com.krld.core.rmi.Service;
 import com.krld.model.*;
-import com.krld.model.container.GameState;
 import com.krld.model.character.Player;
+import com.krld.model.container.GameState;
 import com.krld.model.items.Collective;
 import com.krld.model.items.Dropable;
 import com.krld.model.items.Equip;
@@ -16,6 +16,7 @@ import org.newdawn.slick.imageout.ImageOut;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 public class Game extends BasicGame {
@@ -59,6 +60,8 @@ public class Game extends BasicGame {
     private Music mLoop;
     private int cursorPosition;
     private int activeInventoryScope;
+    private ArrayList<Unit> renderObjects;
+
 
     public Game(int mode) {
         super("Server");
@@ -372,69 +375,82 @@ public class Game extends BasicGame {
         if (runningType == RUNNING_SERVER) {
             return;
         }
+        renderObjects = new ArrayList<Unit>();
         //  zoomFactor =
         g.scale(zoomFactor, zoomFactor);
         g.translate(-getViewPort().getX() /** zoomFactor*/, -getViewPort().getY() /** zoomFactor*/);
-
+        //  GL11.glTranslatef(-getViewPort().getX(), -getViewPort().getY(), 0);
         int playerX = getPlayer().getX();
         int playerY = getPlayer().getY();
         g.setDrawMode(Graphics.MODE_NORMAL);
-        {
-            for (int x = playerX / 32 - 15; x < playerX / 32 + 15; x++) {
-                for (int y = playerY / 32 - 15; y < playerY / 32 + 15; y++) {
-                    int realX = x * 32 - 1;
-                    int realY = y * 32 - 1;
-                    // if (getPlayer().getDistanceTo(realX, realY) < getDistanceOfView()) {
-                    try {
-                        MyTile.draw(getGameState().getTileMap()[x][y], realX, realY, gameContainer);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                    }
-                    //}
-                }
-            }
-            for (Dropable drop : gameState.getDrops()) {
-                if (playerX - 15 * 32 < drop.getX() && playerX + 15 * 32 > drop.getX() &&
-                        playerY - 15 * 32 < drop.getY() && playerY + 15 * 32 > drop.getY()) {
-                    drop.draw();
-                }
-            }
-            for (Located unit : getObjects()) {
-                if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
-                        playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
-                    unit.draw();
-                    //  g.drawString(((Unit)unit).isMakeCollisions() + "", unit.getX(),unit.getY());
-                }
-            }
-            for (Moveable unit : getGameState().getMoveables()) {
-                if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
-                        playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
-                    unit.draw();
-                }
-            }
-            for (Moveable shell : getGameState().getShells()) {
-                if (playerX - 15 * 32 < shell.getX() && playerX + 15 * 32 > shell.getX() &&
-                        playerY - 15 * 32 < shell.getY() && playerY + 15 * 32 > shell.getY()) {
-                    shell.draw();
-                }
-            }
-            for (Lifting lift : getGameState().getLifting()) {
-                if (playerX - 15 * 32 < lift.getX() && playerX + 15 * 32 > lift.getX() &&
-                        playerY - 15 * 32 < lift.getY() && playerY + 15 * 32 > lift.getY()) {
-                    lift.draw();
-                }
-            }
-            for (Player player1 : gameState.getPlayers()) {
 
-                player1.draw();
-                Equip equipped = player1.getEquipped();
-                if (equipped != null) {
-                    equipped.draw(player1.getX(),player1.getY()-16);
+        for (int x = playerX / 32 - 15; x < playerX / 32 + 15; x++) {
+            for (int y = playerY / 32 - 15; y < playerY / 32 + 15; y++) {
+                int realX = x * 32 - 1;
+                int realY = y * 32 - 1;
+                // if (getPlayer().getDistanceTo(realX, realY) < getDistanceOfView()) {
+                try {
+                    MyTile.draw(getGameState().getTileMap()[x][y], realX, realY, gameContainer);
+                } catch (ArrayIndexOutOfBoundsException e) {
                 }
-                if (!getPlayer().equals(player1)) {
-                    g.drawString("id: " + player1.getId(), player1.getX(), player1.getY() - 40);
-                }
+                //}
             }
         }
+
+        for (Dropable drop : gameState.getDrops()) {
+            if (playerX - 15 * 32 < drop.getX() && playerX + 15 * 32 > drop.getX() &&
+                    playerY - 15 * 32 < drop.getY() && playerY + 15 * 32 > drop.getY()) {
+                renderObjects.add((Unit) drop);
+                //  drop.draw();
+            }
+        }
+
+        for (Located unit : getObjects()) {
+            if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
+                    playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
+                renderObjects.add((Unit) unit);
+                // unit.draw();
+                //  g.drawString(((Unit)unit).isMakeCollisions() + "", unit.getX(),unit.getY());
+            }
+        }
+        for (Moveable unit : getGameState().getMoveables()) {
+            if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
+                    playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
+                renderObjects.add((Unit) unit);
+                //  unit.draw();
+            }
+        }
+        for (Moveable shell : getGameState().getShells()) {
+            if (playerX - 15 * 32 < shell.getX() && playerX + 15 * 32 > shell.getX() &&
+                    playerY - 15 * 32 < shell.getY() && playerY + 15 * 32 > shell.getY()) {
+                renderObjects.add((Unit) shell);
+                //   shell.draw();
+            }
+        }
+        for (Lifting lift : getGameState().getLifting()) {
+            if (playerX - 15 * 32 < lift.getX() && playerX + 15 * 32 > lift.getX() &&
+                    playerY - 15 * 32 < lift.getY() && playerY + 15 * 32 > lift.getY()) {
+                renderObjects.add((Unit) lift);
+                // lift.draw();
+
+            }
+        }
+        for (Player player1 : gameState.getPlayers()) {
+            renderObjects.add((Unit) player1);
+            //   player1.draw();
+            Equip equipped = player1.getEquipped();
+            if (equipped != null) {
+                equipped.draw(player1.getX(), player1.getY() - 16);
+            }
+            if (!getPlayer().equals(player1)) {
+                g.drawString("id: " + player1.getId(), player1.getX(), player1.getY() - 40);
+            }
+        }
+        Collections.sort(renderObjects, new RenderComparator());
+        for (Unit unit : renderObjects) {
+            unit.draw();
+        }
+
         ;
         vignettingImage.draw(getViewPort().getX(), getViewPort().getY(), vignettingFilter);
         nightImage.draw(getViewPort().getX(), getViewPort().getY(), nightImageFilter);

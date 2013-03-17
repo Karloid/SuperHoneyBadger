@@ -27,7 +27,7 @@ public class Fir extends AbstractTree {
         } else {
             img = getAliveImg();
         }
-        img.draw(getX(), getY(), 2);
+        img.drawCentered(getX(), getY() - 16);
   //      img.drawCentered(getX(), getY());
     }
 
@@ -64,7 +64,7 @@ public class Fir extends AbstractTree {
         if (equip != null && equip instanceof AbstractAxe) {
             if (!isCutDown()) {
                 setCutDown(true);
-                gameState.getLifting().add(new WoodLog(getX(), getY()));
+                gameState.getLifting().add(new WoodLog(getX(), getY() - 1));
             }
         } else if (!isCutDown()) {
             p.getInventory().getItems().add(new FirBranch());

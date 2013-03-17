@@ -31,14 +31,14 @@ public class AppleTree extends AbstractTree {
         } else {
             img = getCutDownImg();
         }
-        img.draw(getX(),getY(),2f);
+        img.drawCentered(getX(), getY() - 16);
        // img.drawCentered(getX(), getY());
     }
 
     private void initSprite() {
         try {
             Image img = new Image("HoneyBadger/res/appleTree.png");
-            spriteSheet = new SpriteSheet(img, 32, 32, 0, 0);
+            spriteSheet = new SpriteSheet(img, 64, 64, 0, 0);
             spriteSheet.setFilter(Image.FILTER_NEAREST);
             setCutDownImg(new Image("HoneyBadger/res/firstump.png"));
             getCutDownImg().setFilter(Image.FILTER_NEAREST);
