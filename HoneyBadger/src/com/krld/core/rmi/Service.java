@@ -3,6 +3,7 @@ package com.krld.core.rmi;
 import com.krld.model.container.GameState;
 import com.krld.common.MoveDirection;
 import com.krld.model.character.Player;
+import com.krld.model.container.WebContainer;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -18,6 +19,8 @@ public interface Service extends Remote {
     public String sayHello() throws RemoteException;
 
     public GameState getGameState() throws RemoteException;
+
+    public WebContainer getWebGameState() throws RemoteException;
 
     public Player getNewPlayer() throws RemoteException;
 

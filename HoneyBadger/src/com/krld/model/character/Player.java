@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class Player extends LiveForm implements Living {
+public class Player extends LiveForm {
     transient private static Image imgLeft;
     transient private static Image imgRight;
     transient private static Image imgTop;

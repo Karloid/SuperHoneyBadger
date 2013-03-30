@@ -7,6 +7,8 @@ import com.krld.model.FireBall;
 import com.krld.model.Located;
 import com.krld.model.character.Player;
 import com.krld.model.container.GameState;
+import com.krld.model.container.UnitView;
+import com.krld.model.container.WebContainer;
 import com.krld.model.items.Collective;
 import com.krld.model.items.Equip;
 import com.krld.model.recipe.AbstractRecipe;
@@ -17,6 +19,7 @@ import org.newdawn.slick.SlickException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ServiceImpl extends UnicastRemoteObject implements Service {
@@ -34,6 +37,24 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     @Override
     public GameState getGameState() throws RemoteException {
         return game.getGameState();
+    }
+
+    @Override
+    public WebContainer getWebGameState() throws RemoteException {
+        WebContainer webContainer = new WebContainer();
+        ArrayList<UnitView> tiles = new ArrayList<UnitView>();
+        webContainer.tiles = tiles;
+        int[][] tileMap = game.getGameState().getTileMap();
+        for (int x = 100 / 32 - 15; x < 100 / 32 + 15; x++) {
+            for (int y = 100 / 32 - 15; y < 100 / 32 + 15; y++) {
+                try {
+                    tiles.add(new UnitView(Integer.toString(tileMap[x][y]), x, y));
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // ничего не делаем
+                }
+            }
+        }
+        return webContainer;
     }
 
     @Override
@@ -171,9 +192,9 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     public static void main(String[] args) {
         try {
             Service service = new ServiceImpl();
-         //   Registry registry = LocateRegistry.getRegistry("192.168.1.144", 1099);
-        //    registry.rebind("HoneyBadgerRemote", service);
-        Naming.rebind("HoneyBadgerRemote", service);
+            //   Registry registry = LocateRegistry.getRegistry("192.168.1.144", 1099);
+            //    registry.rebind("HoneyBadgerRemote", service);
+            Naming.rebind("HoneyBadgerRemote", service);
             runGameServer(service);
         } catch (Exception e) {
             e.printStackTrace();
