@@ -5,6 +5,7 @@ import com.krld.common.MoveDirection;
 import com.krld.core.Game;
 import com.krld.model.FireBall;
 import com.krld.model.Located;
+import com.krld.model.Unit;
 import com.krld.model.character.Player;
 import com.krld.model.container.GameState;
 import com.krld.model.container.UnitView;
@@ -13,7 +14,6 @@ import com.krld.model.items.Collective;
 import com.krld.model.items.Equip;
 import com.krld.model.recipe.AbstractRecipe;
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
 import java.rmi.Naming;
@@ -40,18 +40,36 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     }
 
     @Override
-    public WebContainer getWebGameState() throws RemoteException {
+    public WebContainer getWebGameState(String email) throws RemoteException {
         WebContainer webContainer = new WebContainer();
+        Player player = findPlayerById(email.hashCode()); // TODO соответствие аккаунтов и персонажей
+        if (player==null) {
+           player = getNewPlayer();
+           player.setId(email.hashCode());
+           player.setX(2000);
+           player.setY(2000);
+        }
+        webContainer.player = new UnitView(player);
         ArrayList<UnitView> tiles = new ArrayList<UnitView>();
         webContainer.tiles = tiles;
         int[][] tileMap = game.getGameState().getTileMap();
-        for (int x = 100 / 32 - 15; x < 100 / 32 + 15; x++) {
-            for (int y = 100 / 32 - 15; y < 100 / 32 + 15; y++) {
+        int playerX = player.getX();
+        int playerY = player.getY();
+        for (int x = playerX / 32 - 15; x < playerX / 32 + 15; x++) {
+            for (int y = playerY / 32 - 15; y < playerY / 32 + 15; y++) {
                 try {
                     tiles.add(new UnitView(Integer.toString(tileMap[x][y]), x, y));
                 } catch (ArrayIndexOutOfBoundsException e) {
                     // ничего не делаем
                 }
+            }
+        }
+        ArrayList<UnitView> objects = new ArrayList<UnitView>();
+        webContainer.objects = objects;
+        for (Located unit : game.getGameState().getObjects()) {
+            if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
+                    playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
+                objects.add(new UnitView((Unit)unit));
             }
         }
         return webContainer;
@@ -60,8 +78,8 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     @Override
     public Player getNewPlayer() throws RemoteException {
         Player player = new Player(2000, 2000);
-        float randSize = random.nextInt(15) * .1f + .5f;
-        Color randColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
+        //float randSize = random.nextInt(15) * .1f + .5f;
+       // Color randColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
         // game.getGameState().getLights().add(new Light(2000, 2000, randSize, randColor));
         game.getGameState().getPlayers().add(player);
         return player;

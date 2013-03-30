@@ -12,7 +12,7 @@ public class UnitView implements Serializable {
     public MoveDirection mD;
 
     public UnitView(Unit unit) {
-       name = unit.getClass().toString();
+       name = unit.getClass().getSimpleName();
        x = unit.getX();
        y = unit.getY();
        mD = unit.getMoveDirection();
