@@ -40,36 +40,91 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     }
 
     @Override
-    public WebContainer getWebGameState(String email) throws RemoteException {
+    public WebContainer getGameTiles(long id) throws RemoteException {
         WebContainer webContainer = new WebContainer();
-        Player player = findPlayerById(email.hashCode()); // TODO соответствие аккаунтов и персонажей
-        if (player==null) {
-           player = getNewPlayer();
-           player.setId(email.hashCode());
-           player.setX(2000);
-           player.setY(2000);
+        // упаковка тайлов
+        Player player = findPlayerById(id); // TODO соответствие аккаунтов и персонажей
+        if (player == null) {
+            player = getNewPlayer();
+            player.setId(id);
+            player.setX(2000 + (int) (Math.random() * 5));
+            player.setY(2000 + (int) (Math.random() * 5));
         }
         webContainer.player = new UnitView(player);
+
+        int playerX = player.getX();
+        int playerY = player.getY();
+        int distanceOfViewX = 20;
+        int distanceOfViewY = 20;
         ArrayList<UnitView> tiles = new ArrayList<UnitView>();
         webContainer.tiles = tiles;
         int[][] tileMap = game.getGameState().getTileMap();
-        int playerX = player.getX();
-        int playerY = player.getY();
-        for (int x = playerX / 32 - 15; x < playerX / 32 + 15; x++) {
-            for (int y = playerY / 32 - 15; y < playerY / 32 + 15; y++) {
+        for (int x = playerX / 32 - distanceOfViewX; x < playerX / 32 + distanceOfViewX; x++) {
+            for (int y = playerY / 32 - distanceOfViewY; y < playerY / 32 + distanceOfViewY; y++) {
                 try {
                     tiles.add(new UnitView(Integer.toString(tileMap[x][y]), x, y));
+                    //    break;
                 } catch (ArrayIndexOutOfBoundsException e) {
                     // ничего не делаем
                 }
             }
         }
+        return webContainer;
+    }
+
+    @Override
+    public WebContainer getWebGameState(String email) throws RemoteException {
+        WebContainer webContainer = new WebContainer();
+        Player player = findPlayerById(email.hashCode()); // TODO соответствие аккаунтов и персонажей
+        if (player == null) {
+            player = getNewPlayer();
+            player.setId(email.hashCode());
+            player.setX(2000);
+            player.setY(2000);
+        }
+        webContainer.player = new UnitView(player);
+
+        int playerX = player.getX();
+        int playerY = player.getY();
+        int distanceOfViewX = 14;
+        int distanceOfViewY = 11;
+
+        // Упаковка неподвижных игровых объектов - деревья камни
         ArrayList<UnitView> objects = new ArrayList<UnitView>();
         webContainer.objects = objects;
         for (Located unit : game.getGameState().getObjects()) {
-            if (playerX - 15 * 32 < unit.getX() && playerX + 15 * 32 > unit.getX() &&
-                    playerY - 15 * 32 < unit.getY() && playerY + 15 * 32 > unit.getY()) {
-                objects.add(new UnitView((Unit)unit));
+            if (playerX - distanceOfViewX * 32 < unit.getX() && playerX + distanceOfViewX * 32 > unit.getX() &&
+                    playerY - distanceOfViewY * 32 < unit.getY() && playerY + distanceOfViewY * 32 > unit.getY()) {
+                objects.add(new UnitView((Unit) unit));
+            }
+        }
+        // Упаковка игровой фауны - деревья камни
+        ArrayList<UnitView> moveables = new ArrayList<UnitView>();
+        webContainer.moveables = moveables;
+        for (Located unit : game.getGameState().getMoveables()) {
+            if (playerX - distanceOfViewX * 32 < unit.getX() && playerX + distanceOfViewX * 32 > unit.getX() &&
+                    playerY - distanceOfViewY * 32 < unit.getY() && playerY + distanceOfViewY * 32 > unit.getY()) {
+                moveables.add(new UnitView((Unit) unit));
+            }
+        }
+
+        // Упаковка игровой фауны - деревья камни
+        ArrayList<UnitView> drops = new ArrayList<UnitView>();
+        webContainer.drops = drops;
+        for (Located unit : game.getGameState().getDrops()) {
+            if (playerX - distanceOfViewX * 32 < unit.getX() && playerX + distanceOfViewX * 32 > unit.getX() &&
+                    playerY - distanceOfViewY * 32 < unit.getY() && playerY + distanceOfViewY * 32 > unit.getY()) {
+                drops.add(new UnitView((Unit) unit));
+            }
+        }
+
+        // Упаковка персонажей других игроков
+        ArrayList<UnitView> players = new ArrayList<UnitView>();
+        webContainer.players = players;
+        for (Player otherPlayer : game.getGameState().getPlayers()) {
+            if (playerX - distanceOfViewX * 32 < otherPlayer.getX() && playerX + distanceOfViewX * 32 > otherPlayer.getX() &&
+                    playerY - distanceOfViewY * 32 < otherPlayer.getY() && playerY + distanceOfViewY * 32 > otherPlayer.getY() && player.getId() != otherPlayer.getId()) {
+                players.add(new UnitView(otherPlayer));
             }
         }
         return webContainer;
@@ -79,7 +134,7 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
     public Player getNewPlayer() throws RemoteException {
         Player player = new Player(2000, 2000);
         //float randSize = random.nextInt(15) * .1f + .5f;
-       // Color randColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
+        // Color randColor = new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
         // game.getGameState().getLights().add(new Light(2000, 2000, randSize, randColor));
         game.getGameState().getPlayers().add(player);
         return player;

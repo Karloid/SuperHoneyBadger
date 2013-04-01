@@ -20,6 +20,8 @@ public interface Service extends Remote {
 
     public GameState getGameState() throws RemoteException;
 
+    public WebContainer getGameTiles(long id) throws RemoteException;
+
     public WebContainer getWebGameState(String email) throws RemoteException;
 
     public Player getNewPlayer() throws RemoteException;
