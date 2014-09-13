@@ -262,6 +262,18 @@ public class ServiceImpl extends UnicastRemoteObject implements Service {
         player.moveTo(moveDirection);
     }
 
+    @Override
+    public WebContainer webMove(long id, MoveDirection moveDirection) throws RemoteException {
+        Player player = findPlayerById(id);
+        if (player == null) {
+            return null;
+        }
+        player.moveTo(moveDirection);
+        WebContainer response = new WebContainer();
+        response.player = new UnitView(player);
+        return response;
+    }
+
     public static void main(String[] args) {
         try {
             Service service = new ServiceImpl();

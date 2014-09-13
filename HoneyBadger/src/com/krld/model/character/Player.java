@@ -1,12 +1,12 @@
 package com.krld.model.character;
 
 import com.krld.common.MoveDirection;
-import com.krld.model.*;
+import com.krld.model.Located;
+import com.krld.model.Unit;
 import com.krld.model.items.Collective;
 import com.krld.model.items.Dropable;
 import com.krld.model.items.Equip;
 import com.krld.model.live.LiveForm;
-import com.krld.model.live.Living;
 import com.krld.model.recipe.*;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -32,7 +32,7 @@ public class Player extends LiveForm {
         setId(Unit.getNextId());
         setX(x);
         setY(y);
-        setSpeed(10);
+        setSpeed(3);
         setInventory(new Inventory());
         moveDirection = MoveDirection.LEFT;
         setMaxHp(100);

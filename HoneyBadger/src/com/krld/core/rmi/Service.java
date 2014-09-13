@@ -16,19 +16,21 @@ import java.rmi.RemoteException;
  * To change this template use File | Settings | File Templates.
  */
 public interface Service extends Remote {
-    public String sayHello() throws RemoteException;
+    String sayHello() throws RemoteException;
 
-    public GameState getGameState() throws RemoteException;
+    GameState getGameState() throws RemoteException;
 
-    public WebContainer getGameTiles(long id) throws RemoteException;
+    WebContainer getGameTiles(long id) throws RemoteException;
 
-    public WebContainer getWebGameState(String email) throws RemoteException;
+    WebContainer getWebGameState(String email) throws RemoteException;
 
-    public Player getNewPlayer() throws RemoteException;
+    Player getNewPlayer() throws RemoteException;
 
     //  public void castFireball(Player player) throws RemoteException;
 
     void move(long id, MoveDirection moveDirection) throws RemoteException;
+
+    WebContainer webMove(long id, MoveDirection moveDirection) throws RemoteException;
 
     void castFireball(Player player) throws RemoteException;
 
